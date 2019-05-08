@@ -1,0 +1,10 @@
+Bootstrap: shub
+From: TomHarrop/singularity-containers:biopython_1.73
+
+%runscript
+
+
+%setup
+    mydir=$(mktemp -d)
+    
+
