@@ -36,6 +36,9 @@ try:
     read_index = SeqIO.index_db(db_file,
                                 read_file,
                                 'fastq')
+
+    logging.debug("Read index finished successfully.")
+
 except Exception as e:
     logging.exception('')
     raise e

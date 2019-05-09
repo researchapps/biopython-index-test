@@ -1,10 +1,10 @@
-Bootstrap: shub
-From: TomHarrop/singularity-containers:biopython_1.73
+Bootstrap: docker
+From: python:3.7.3-stretch
 
-%runscript
-    python3 /index_reads.py
+# sudo singularity build biopython.sif Singularity.biopython_index_test
 
 %setup
+    here=$PWD
     mydir=$(mktemp -d)
     cd "${mydir}" || exit 1
     git clone https://github.com/TomHarrop/biopython-index-test.git
@@ -19,3 +19,29 @@ From: TomHarrop/singularity-containers:biopython_1.73
     cd .. || exit 1
     cd .. || exit 1
     rm -rf "${mydir}"
+
+    # Add biopython from repo to container
+    cd $here
+    echo "Adding biopython to code"
+    mkdir -p ${SINGULARITY_ROOTFS}/code
+    cp -R biopython-1.73/* ${SINGULARITY_ROOTFS}/code/
+    ls ${SINGULARITY_ROOTFS}/code
+
+%help
+    Python 3.7.3 with Biopython 1.73
+    
+%labels
+    MAINTAINER "Tom Harrop (twharrop@gmail.com)"
+    VERSION "Biopython 1.73"
+
+%runscript
+    python3 /index_reads.py
+
+%post
+    /usr/local/bin/pip3 install \
+        intermine==1.11.0
+
+    # Install biopython we have here locally
+    cd /code
+    pip3 install .
+
