@@ -10,7 +10,7 @@ import sys
 import tempfile
 
 # set up log
-logging.getLogger().addHandler(logging.StreamHandler())
+logging.basicConfig(level=logging.DEBUG)
 
 # debug biopython issue
 logging.debug('sys.version')
