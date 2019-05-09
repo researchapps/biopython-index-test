@@ -220,4 +220,19 @@ $ singularity run -B ${PWD},/tmp -H $(mktemp -d) --pwd ${PWD} --containall  --cl
 
 I'm hoping there is enough printing so that we can run this container where the error is being generated,
 and trace what is happening better than now. We can adjust the debug statements (more or less)
-depending on what we find.
+depending on what we find. It ran okay on my host, and I saw the same Insert after the EOF.
+ 
+
+```bash
+...
+Inserting batch of 100 offsets, K00171:456:HKGMHBBXX:5:2228:10734:48544 ... K00171:456:HKGMHBBXX:5:2228:27894:48808
+Inserting batch of 100 offsets, K00171:456:HKGMHBBXX:5:2228:18862:48808 ... K00171:456:HKGMHBBXX:5:2228:29934:49212
+EOF
+END of of FastqRandomAccess __iter__
+Inserting batch of 1 offsets, K00171:456:HKGMHBBXX:5:2228:31517:49247 ... K00171:456:HKGMHBBXX:5:2228:31517:49247
+length of random_access_proxies is less than max_open 10
+About to index 3066301 entries
+CREATE UNIQUE INDEX IF NOT EXISTS key_index ON offset_data(key);
+END of call to Bio.File._build_index
+END of call to Bio.File._SQLiteManySeqFilesDict
+```
