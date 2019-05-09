@@ -2,9 +2,16 @@ Bootstrap: shub
 From: TomHarrop/singularity-containers:biopython_1.73
 
 %runscript
-
+    python3 /index_reads.py
 
 %setup
     mydir=$(mktemp -d)
-    
-
+    cd "${mydir}" || exit 1
+    git clone https://github.com/TomHarrop/biopython-index-test.git
+    cd biopython-index-test || exit 1
+    gunzip r1.fq.gz
+    cp r1.fq ${SINGULARITY_ROOTFS}/r1.fq
+    cp index_reads.py ${SINGULARITY_ROOTFS}/index_reads.py
+    cd .. || exit 1
+    cd .. || exit 1
+    rm -rf "${mydir}"

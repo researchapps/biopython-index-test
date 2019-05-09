@@ -7,11 +7,10 @@ import os
 import platform
 import sqlite3
 import sys
+import tempfile
 
 # set up log
-logging.basicConfig(
-    filename=snakemake.log[0],
-    level=logging.DEBUG)
+logging.getLogger().addHandler(logging.StreamHandler())
 
 # debug biopython issue
 logging.debug('sys.version')
@@ -28,8 +27,10 @@ logging.debug('os.environ')
 logging.debug(os.environ)
 
 
-read_file = snakemake.input[0]
-db_file = snakemake.output[0]
+read_file = '/r1.fq'
+
+outdir = tempfile.mkdtemp(dir=os.environ.get('PWD'))
+db_file = os.path.join(outdir, 'r1.idx')
 
 try:
     read_index = SeqIO.index_db(db_file,
