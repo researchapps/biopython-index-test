@@ -9,6 +9,10 @@ From: TomHarrop/singularity-containers:biopython_1.73
     cd "${mydir}" || exit 1
     git clone https://github.com/TomHarrop/biopython-index-test.git
     cd biopython-index-test || exit 1
+    rm r1.fq.gz
+    wget -O r1.fq.gz \
+        --no-check-certificate \
+        https://github.com/TomHarrop/biopython-index-test/raw/master/r1.fq.gz
     gunzip r1.fq.gz
     cp r1.fq ${SINGULARITY_ROOTFS}/r1.fq
     cp index_reads.py ${SINGULARITY_ROOTFS}/index_reads.py
