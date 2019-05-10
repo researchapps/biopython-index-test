@@ -736,15 +736,22 @@ class _SQLiteManySeqFilesDict(_IndexedSeqFileDict):
 
         #### DEBUGGING #############
         print("creating database with the following:")
-        print("PRAGMA synchronous=OFF")
+        print("PRAGMA synchronous=ON")
         print("PRAGMA locking_mode=EXCLUSIVE")
         #### DEBUGGING #############
 
-        con.execute("PRAGMA synchronous=OFF")
-        con.execute("PRAGMA locking_mode=EXCLUSIVE")
-        # Don't index the key column until the end (faster)
-        # con.execute("CREATE TABLE offset_data (key TEXT PRIMARY KEY, "
+        #con.execute("PRAGMA synchronous=OFF")
+        #con.execute("PRAGMA locking_mode=EXCLUSIVE")
+
+        #### DEBUGGING #############
+        print("This is where the unique indexing was commented out, adding it back in.")
+        print("CREATE TABLE offset_data (key TEXT PRIMARY KEY, file_number INTEGER, offset INTEGER, length INTEGER);")
+        #### DEBUGGING #############
+         
+        #con.execute("CREATE TABLE offset_data (key TEXT PRIMARY KEY, "
         #             "offset INTEGER);")
+        con.execute("CREATE TABLE offset_data (key TEXT PRIMARY KEY, "
+                    "file_number INTEGER, offset INTEGER, length INTEGER);")
 
         #### DEBUGGING #############
         print("About to issue the following commands:")
@@ -767,8 +774,6 @@ class _SQLiteManySeqFilesDict(_IndexedSeqFileDict):
         # TODO - Record the file size and modified date?
         con.execute(
             "CREATE TABLE file_data (file_number INTEGER, name TEXT);")
-        con.execute("CREATE TABLE offset_data (key TEXT, "
-                    "file_number INTEGER, offset INTEGER, length INTEGER);")
         count = 0
 
         #### DEBUGGING #############
@@ -860,9 +865,11 @@ class _SQLiteManySeqFilesDict(_IndexedSeqFileDict):
 
                 random_access_proxy._handle.close()
         self._length = count
+
         #### DEBUGGING #############
-        print("About to index %i entries" % count)
+        print("Previously indexed entries here, now commented out." % count)
         #### DEBUGGING #############
+
         try:
             #### DEBUGGING #############
             print("CREATE UNIQUE INDEX IF NOT EXISTS key_index ON offset_data(key);")
