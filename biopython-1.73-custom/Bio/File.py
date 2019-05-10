@@ -867,7 +867,7 @@ class _SQLiteManySeqFilesDict(_IndexedSeqFileDict):
         self._length = count
 
         #### DEBUGGING #############
-        print("Previously indexed entries here, now commented out.")
+        print("Previously indexed entries here, now should skip, finding it exists.")
         #### DEBUGGING #############
 
         try:
